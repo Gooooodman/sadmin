@@ -1,0 +1,109 @@
+
+
+{% extends "common/base.side.html" %}
+
+{% block title %}
+    form
+{% endblock %}
+
+{% block rcontent %}
+<script src="/static/js/jquery-1.11.0.min.js"></script>
+<script src="/static/js/jquery.form.js"></script>
+
+<form class="form-inline" id="postForm">
+  <div class="form-group ">
+    <label>渠道 :</label>
+    <input type="text" class="form-control" name="name" placeholder="en">
+  </div>
+  <div class="form-group">
+    <label>服务器IP :</label>
+    <input type="text" class="form-control" name="ip" placeholder="52.74.174.169">
+  </div>
+  <div class="form-group">
+    <label>服数ID :</label>
+    <input type="text" class="form-control"  name="server_id" placeholder="17">
+  </div>
+  <div class="form-group">
+    <label >开服时间 :</label>
+    <input type="text" class="form-control"  name="start_date" placeholder="2015-10-28 12:00:00">
+  </div>
+  <div class="form-group">
+    <label>游戏名称 :</label>
+    <input type="text" class="form-control" name="server_name" placeholder="test17">
+  </div>
+
+  <button type="submit" id="sbt1" class="btn btn-success">确定装服</button>
+</form>
+<table class="table">
+    <tbody>
+        <tr class="success">
+            <td>安装情况 :</td>
+            <td id="install">请填写好相关参数..</td>
+        </tr>
+
+    </tbody>
+
+
+</table>
+
+
+<input id="sbt2" class="btn btn-danger" type="submit" value="清空日志" /></br>
+<div class="">
+<h4>日志如下: </h4>
+    <img id="loading" src="/static/images/ajax-loader.gif" style="display:none;"></br>
+<div id="log"></div>
+</div>
+
+
+
+<script>
+	$('#sbt1').click(function(){
+        $('#install').html("正在安装...");
+	});
+	$("#postForm").ajaxForm({
+		type: "post",
+		url: "{% url "game:game_install" %}",
+		success: function(data){
+			$('#install').html(data.message);
+		}
+	});
+
+
+    $(document).ajaxStart(function(){
+        $('#loading').show();
+    }).ajaxStop(function(){
+        $('#loading').hide();
+    });
+
+
+    function load(){
+        $.get("{% url 'game:game_read_log' %}",function(data){
+                    $("#log").html(data);
+                });
+        };
+        $(document).ready(function(){
+         setInterval(load, 5000);
+        });
+
+
+    $('#sbt2').click(function(){
+        $.ajax({
+            url:"{% url "game:game_clean_log" %}",
+            success:function(data){
+                    $("#install").html(data.message);
+            }
+        });
+
+    });
+
+
+</script>
+
+
+
+
+
+
+
+
+{% endblock %}

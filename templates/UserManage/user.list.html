@@ -1,0 +1,57 @@
+{% extends "common/base.side.html" %}
+
+{% block title %}
+    List User
+{% endblock %}
+
+{% block rcontent %}
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            {% url "UserManage:adduserurl" as theadduserurl %}
+            <a class="btn btn-default {%if request.path = theadduserurl%} active {%endif%}" href={{ theadduserurl }}><span class="glyphicon glyphicon-edit"></span>新建用户</a>
+            {% url "UserManage:listuserurl" as thelistuserurl %}
+            <a class="btn btn-primary {%if request.path = thelistuserurl%} active {%endif%}" href={{ thelistuserurl }}><span class="glyphicon glyphicon-refresh"></span>用户列表</a>
+        </div>
+    </div>
+
+    <hr/>
+
+    <table class="table table-hover table-striped  table-bordered table-condensed">
+        <tr>
+            <th><span class="label label-default">账号</span></th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>Email</th>
+            <th>状态</th>
+            <th>角色</th>
+            <th>最后登录时间</th>
+            <th>操作</th>
+        </tr>
+
+            {% for i in lPage %}
+                <tr style="font-size: 13px;">
+                    <td><span class="label label-default">{{ i.username }}</span></td>
+                    <td><span class="label label-info">{{ i.nickname|default:"----" }}</span></td>
+                    <td><span class="label label-warning">{{ i.sex|default:"----" }}</span></td>
+                    <td><span class="label label-danger">{{ i.email }}</span></td>
+                    <td>
+                        {% if i.is_active %}
+                            <span class="label label-success">启用</span>
+                        {% else %}
+                            <!-- <span class="label label-default">禁用</span> -->
+                            <span class="label label-primary">禁用</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ i.role|default:"----" }}</td>
+                    <td>{{ i.last_login|date:"Y-m-d H:i:s" }}</td>
+                    <td class="host_buttom">
+                        <a class="btn btn-warning btn-xs"  href={% url "UserManage:edituserurl" i.id %} onclick="return confirm('是否确认编辑？')">编辑</a>
+                        <a class="btn btn-danger btn-xs" href={% url "UserManage:deleteuserurl" i.id %} onclick="return confirm('是否确认删除？')">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </table>
+
+    {% include "common/paginator.html" %}
+{% endblock %}

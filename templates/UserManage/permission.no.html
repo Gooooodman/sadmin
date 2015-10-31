@@ -1,0 +1,10 @@
+{% extends "common/base.side.html" %}
+
+{% block title %}
+    No Permission
+{% endblock %}
+
+{% block rcontent %}
+    <p>很悲催的通知你，你没有权限，请联系管理员。 {{ request.path }}</p>
+
+{% endblock %}

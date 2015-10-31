@@ -1,0 +1,55 @@
+{% extends "common/base.side.html" %}
+
+{% block title %}
+    推送 CDN 
+{% endblock %}
+
+
+
+
+
+{% block rcontent %}
+
+
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <a class="btn btn-default   "><span class="glyphicon glyphicon-edit"></span>更新CDN</a>
+        </div>
+    </div>
+
+<br />
+<br />
+<form  method="post">
+
+	渠道:<select name="qudao" id="qd">  
+	  <option value ="qq">QQ</option>  
+	  <option value ="iso_yueyu">iso_yueyu</option>  
+	  <option value="tw">台湾</option>  
+	  <option value="0">无</option>  
+	</select> 
+
+
+	版本:<select name="version" id="ver">  
+	  <option value ="v1.0.7">v1.0.7</option>  
+	  <option value ="v1.0.8">v1.0.8</option>  
+	  <option value="0">无</option>  
+	  <option value="0">无</option>  
+	</select> 
+	<br />
+	<div >
+		<br />
+	    <button type="submit" class="btn btn-primary " onclick="return confirm('确认更新CDN吗？')">提交</button>
+	</div>
+
+	<div class="form-group">
+		<br />
+	      <label class="col-sm-1 control-label">返回结果</label>
+	      <div class="col-sm-6">
+	           <textarea class="form-control" rows="1">              渠道:{{qudao}}                                         版本号:{{ version }}</textarea>
+	           <textarea class="form-control" rows="20">{{ret}}</textarea>
+	      </div>
+	</div>
+
+</form>
+
+{% endblock %}

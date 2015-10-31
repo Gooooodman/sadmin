@@ -1,0 +1,105 @@
+{% extends "common/base.side.html" %}
+
+{% block title %}
+    游戏安装
+{% endblock %}
+
+{% block rcontent %}
+<script src="/static/js/jquery-1.11.0.min.js"></script>
+<script src="/static/js/jquery.form.js"></script>
+
+<style type="text/css">
+#Content{
+    height:600px;
+    /*此处对容器设置了高度，一般不建议对容器设置高度，一般使用overflow:auto;属性设置容器根据内容自适应高度，如果不指定高度或不设置自适应高度，容器将默认为1个字符高度，容器下方的布局元素（footer）设置margin-top:属性将无效*/
+    margin-top:20px;/*此处讲解margin的用法，设置content与上面header元素之间的距离*/
+}
+#Content-Left{
+    height:400px;
+    width:200px;
+    margin:20px;/*设置元素跟其他元素的距离为20像素*/
+    float:left;/*设置浮动，实现多列效果，div+Css布局中很重要的*/
+}
+#Content-Main{
+    height:400px;
+    width:720px;
+    margin:20px;/*设置元素跟其他元素的距离为20像素*/
+    float:left;/*设置浮动，实现多列效果，div+Css布局中很重要的*/
+}
+
+</style>
+
+<div id="Content" >
+<div id="Content-Left">
+功能 : 安装服
+<form id="postForm">
+{#    <div class="form-group">#}
+{#        <lable class="control-label col-md-1">渠道：</lable>#}
+{#        <div class="col-md-2">#}
+{#            <input type="test" name="name" value= "en"></br>#}
+{#        </div>#}
+{##}
+{#    </div>#}
+渠道： <input type="test" name="name" value= "en" /></br>
+机器IP：<input type="test" name="ip" value= "52.74.174.169"></br>
+服数id: <input type="test" name="server_id" value= "16" /></br>
+开服时间：<input type="test" name="start_date" value="2015-10-28 12:00:00" ></br>
+游戏名称： <input type="test" name="server_name" value="游戏名称" ></br>
+安装情况:<span id="span"></span></br>
+<input id="sbt1" type="submit" value="确认安装" /></br>
+</form>
+<span id="span2"></span>
+</div>
+<input id="sbt2" class="butt" type="submit" value="清空日志" /></br>
+<div style="float: left">日志如下:</div>
+    <img id="loading" src="/static/images/ajax-loader.gif" style="display:none;"></br>
+<div id="Content-Main"></div>
+</div>
+
+<script>
+	$('#sbt1').click(function(){
+        $('#span').html("正在安装...");
+	});
+	$("#postForm").ajaxForm({
+		type: "post",
+		url: "{% url "game:game_install" %}",
+		success: function(data){
+			$('#span').html(data.message);
+		}
+	});
+
+
+    $(document).ajaxStart(function(){
+        $('#loading').show();
+    }).ajaxStop(function(){
+        $('#loading').hide();
+    });
+
+
+    function load(){
+        $.get("{% url 'game:game_read_log' %}",function(data){
+                    $("#Content-main").html(data);
+                });
+        };
+        $(document).ready(function(){
+         setInterval(load, 5000);
+        });
+
+
+    $('#sbt2').click(function(){
+        $.ajax({
+            url:"{% url "game:game_clean_log" %}",
+            success:function(data){
+                    $("#span2").html(data.message);
+            }
+        });
+
+    });
+
+
+</script>
+
+
+{% endblock %}
+
+

@@ -1,0 +1,44 @@
+
+
+{% extends "common/base.side.html" %}
+
+{% block title %}
+    服务器所在服情况
+{% endblock %}
+
+{% block rcontent %}
+
+<table class="table  table-hover">
+   <caption></caption>
+   <thead>
+      <tr>
+          <th>#</th>
+         <th>服务器ip</th>
+         <th>所在的服</th>
+         <th>服数</th>
+      </tr>
+   </thead>
+   <tbody>
+      {% for key,value in dicts.items %}
+       <tr>
+           <td>{{ forloop.counter }}</td>
+           <td>{{ key }}</td>
+           <td>{{ value|cut:"["|cut:"]"|cut:"'"}}</td>
+            <td>{{ value|length }}</td>
+        </tr>
+
+   {% endfor %}
+   </tbody>
+</table>
+
+
+
+
+<script>
+
+</script>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "common/base.side.html" %}
+
+{% block title %}
+    信息 
+{% endblock %}
+
+{% block rcontent %}
+	
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            
+            <a class="btn btn-default "><span class="glyphicon glyphicon-edit"></span>服数:  {{sum}}</a>
+        </div>
+    </div>
+
+    <hr/>
+
+
+    <table class="table table-hover table-striped  table-bordered table-condensed">
+        <tr>         
+            <th>服数</th>
+            <th>ip</th>
+            <th>id</th>
+            <th>平台</th>
+        </tr>
+
+            {% for av,kv in ips  %}
+
+                <tr style="font-size: 13px;">
+                    <td><span class="label label-success">{{av}}</span></td>
+                    {% for bk,bv in kv.iteritems  %}
+                    
+                    <td><span >{{ bv|default:"----" }}</span></td>
+                    {% endfor %}
+                </tr>
+
+            {% endfor %}
+
+        </table>
+
+
+{% endblock %}
+
+
+
+
+
